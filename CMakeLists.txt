@@ -4,8 +4,13 @@ project(CassetteInput VERSION 1.0.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Use JUCE submodule in ./JUCE
+# JUCE submodule
 add_subdirectory(JUCE)
+
+# Grab all plugin source files automatically
+file(GLOB PLUGIN_SOURCES CONFIGURE_DEPENDS
+     "Source/*.cpp"
+     "Source/*.mm")
 
 juce_add_plugin(CassetteInput
     COMPANY_NAME LuminaLabs
@@ -20,16 +25,8 @@ juce_add_plugin(CassetteInput
     FORMATS AU VST3
     PRODUCT_NAME "Cassette Input"
 
-    # All plugin sources go here so they link into AU/VST3 wrappers
     SOURCES
-        Source/PluginProcessor.cpp
-        Source/PluginEditor.cpp
-        Source/Parameters.cpp
-        Source/CreatePluginFilter.cpp
-        # headers are optional but ok to list
-        Source/PluginProcessor.h
-        Source/PluginEditor.h
-        Source/Parameters.h
+        ${PLUGIN_SOURCES}     # includes CreatePluginFilter.cpp and friends
 )
 
 target_include_directories(CassetteInput PRIVATE Source)
@@ -40,4 +37,7 @@ target_compile_definitions(CassetteInput PRIVATE
 )
 
 target_link_libraries(CassetteInput PRIVATE
-    juc
+    juce::juce_audio_utils
+    juce::juce_dsp
+)
+
