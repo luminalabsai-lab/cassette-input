@@ -30,6 +30,7 @@ target_sources(CassetteInput PRIVATE
     Source/PluginEditor.h
     Source/Parameters.cpp
     Source/Parameters.h
+    Source/CreatePluginFilter.cpp
 )
 
 target_include_directories(CassetteInput PRIVATE Source)
