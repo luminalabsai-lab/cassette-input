@@ -40,7 +40,7 @@ void CassetteInputAudioProcessor::setStateInformation (const void* /*data*/, int
     // no state yet
 }
 
-juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
+extern "C" juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new CassetteInputAudioProcessor();
 }
