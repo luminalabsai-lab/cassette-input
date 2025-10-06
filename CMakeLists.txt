@@ -1,14 +1,16 @@
+# from the cassette-input folder
+cat > CMakeLists.txt <<'CMK'
 cmake_minimum_required(VERSION 3.22)
-project(CassetteInput VERSION 1.0.0 LANGUAGES C CXX)  # enable C and C++
+project(CassetteInput VERSION 1.0.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Use the JUCE submodule that exists in the repo
+# Use JUCE submodule in ./JUCE
 add_subdirectory(JUCE)
 
 juce_add_plugin(CassetteInput
-    COMPANY_NAME LuminaLabs            # <-- no spaces
+    COMPANY_NAME LuminaLabs
     BUNDLE_ID com.luminalabs.cassetteinput
     IS_SYNTH FALSE
     NEEDS_MIDI_INPUT FALSE
@@ -41,3 +43,5 @@ target_link_libraries(CassetteInput PRIVATE
   juce::juce_audio_utils
   juce::juce_dsp
 )
+CMK
+
