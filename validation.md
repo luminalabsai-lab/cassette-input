@@ -1,0 +1,5 @@
+- Pass-through (Drive=0, Mix=100) must stay within 0.2 dB of input for 20 Hz–20 kHz.
+- THD <0.5% at −18 dBFS input, 1 kHz sine.
+- Head-bump (EQ) gain must not exceed spec limits.
+- Oversampling "Draft" mode must show increased aliasing vs. "Normal" and "High" (place PNG proofs here).
+- Golden-file and unit tests must pass.
