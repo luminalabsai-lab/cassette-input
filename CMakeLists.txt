@@ -7,7 +7,7 @@ set(JUCE_DIR "${CMAKE_SOURCE_DIR}/JUCE")
 add_subdirectory(JUCE)
 
 juce_add_plugin(CassetteInput
-    COMPANY_NAME "Lumina Labs"
+    BUNDLE_ID com.luminalabs.cassetteinput
     IS_SYNTH FALSE
     NEEDS_MIDI_INPUT FALSE
     NEEDS_MIDI_OUTPUT FALSE
