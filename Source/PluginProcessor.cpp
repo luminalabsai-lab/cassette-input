@@ -7,7 +7,11 @@ CassetteInputAudioProcessor::CassetteInputAudioProcessor()
     .withOutput ("Output", juce::AudioChannelSet::stereo(), true))
 {}
 
-void CassetteInputAudioProcessor::prepareToPlay (double /*sampleRate*/, int /*samplesPerBlock*/) {}
+void CassetteInputAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+{
+    juce::ignoreUnused (sampleRate, samplesPerBlock);
+}
+
 void CassetteInputAudioProcessor::releaseResources() {}
 
 bool CassetteInputAudioProcessor::isBusesLayoutSupported (const BusesLayout& l) const
@@ -16,8 +20,9 @@ bool CassetteInputAudioProcessor::isBusesLayoutSupported (const BusesLayout& l) 
         && l.getMainOutputChannelSet() == juce::AudioChannelSet::stereo();
 }
 
-void CassetteInputAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& /*midi*/)
+void CassetteInputAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midi)
 {
+    juce::ignoreUnused (midi);
     juce::ScopedNoDenormals noDenormals;
 
     // Pass-through stub for now
@@ -35,14 +40,9 @@ void CassetteInputAudioProcessor::getStateInformation (juce::MemoryBlock& dest)
     dest.setSize (0); // no state yet
 }
 
-void CassetteInputAudioProcessor::setStateInformation (const void* /*data*/, int /*sizeInBytes*/)
+void CassetteInputAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // no state yet
-}
-
-extern "C" JUCE_API juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
-{
-    return new CassetteInputAudioProcessor();
+    juce::ignoreUnused (data, sizeInBytes); // no state yet
 }
 
 
