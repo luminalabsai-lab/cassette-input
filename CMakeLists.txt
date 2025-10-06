@@ -1,13 +1,19 @@
-cmake_minimum_required(VERSION 3.15)
-project(CassetteInput VERSION 1.0.0 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.22)
+project(CassetteInput VERSION 1.0.0 LANGUAGES C CXX)  # enable C too to satisfy toolchain checks
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(JUCE_DIR "${CMAKE_SOURCE_DIR}/JUCE")
-add_subdirectory(JUCE)
 
+# Fetch JUCE (no submodule needed)
+include(FetchContent)
+FetchContent_Declare(juce
+  GIT_REPOSITORY https://github.com/juce-framework/JUCE.git
+  GIT_TAG 7.0.12)
+FetchContent_MakeAvailable(juce)
+
+# --- Plugin target
 juce_add_plugin(CassetteInput
-    BUNDLE_ID com.luminalabs.cassetteinput
+    BUNDLE_ID com.luminalabs.cassetteinput     # no spaces
     IS_SYNTH FALSE
     NEEDS_MIDI_INPUT FALSE
     NEEDS_MIDI_OUTPUT FALSE
@@ -16,7 +22,7 @@ juce_add_plugin(CassetteInput
     PLUGIN_MANUFACTURER_CODE LmLb
     PLUGIN_CODE Csin
     FORMATS AU VST3
-    PRODUCT_NAME "CassetteInput"
+    PRODUCT_NAME "Cassette Input"
 )
 
 target_sources(CassetteInput PRIVATE
@@ -24,45 +30,15 @@ target_sources(CassetteInput PRIVATE
     Source/PluginProcessor.h
     Source/PluginEditor.cpp
     Source/PluginEditor.h
-    Source/Parameters.cpp
-    Source/Parameters.h
-    Source/Preamp.cpp
-    Source/Preamp.h
-    Source/TapeComp.cpp
-    Source/TapeComp.h
-    Source/HeadBumpEQ.cpp
-    Source/HeadBumpEQ.h
-    Source/EQ.cpp
-    Source/EQ.h
-    Source/WowFlutter.cpp
-    Source/WowFlutter.h
-    Source/Noise.cpp
-    Source/Noise.h
-    Source/Metering.cpp
-    Source/Metering.h
-    Source/Oversampling.cpp
-    Source/Oversampling.h
-    Source/UI.cpp
-    Source/UI.h
 )
 
-target_include_directories(CassetteInput PRIVATE
-    Source
-)
+target_include_directories(CassetteInput PRIVATE Source)
 
 juce_generate_juce_header(CassetteInput)
 
-# Resources
-file(GLOB SVG_FILES "Resources/*.svg")
-file(GLOB JSON_FILES "Resources/*.json")
-target_sources(CassetteInput PRIVATE ${SVG_FILES} ${JSON_FILES})
-
-# Tests
-add_subdirectory(Tests)
-
-# Link JUCE modules
-target_link_libraries(CassetteInput PRIVATE
-    juce::juce_audio_utils
-    juce::juce_dsp
-    juce::juce_gui_extra
+target_compile_definitions(CassetteInput PRIVATE
+  JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0
 )
+
+target_link_libraries(CassetteInput PRIVATE juce::juce_audio_utils juce::juce_dsp)
+
