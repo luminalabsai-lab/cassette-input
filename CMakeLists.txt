@@ -21,20 +21,18 @@ juce_add_plugin(CassetteInput
     PRODUCT_NAME "Cassette Input"
 )
 
-# >>> this is the important part: add sources here, not in juce_add_plugin
+# List sources HERE (not inside juce_add_plugin)
 target_sources(CassetteInput PRIVATE
     Source/PluginProcessor.cpp
     Source/PluginEditor.cpp
     Source/Parameters.cpp
-    Source/CreatePluginFilter.cpp
-    # headers are optional for IDEs
+    # headers optional
     Source/PluginProcessor.h
     Source/PluginEditor.h
     Source/Parameters.h
 )
 
 target_include_directories(CassetteInput PRIVATE Source)
-
 juce_generate_juce_header(CassetteInput)
 
 target_compile_definitions(CassetteInput PRIVATE
@@ -48,7 +46,7 @@ target_link_libraries(CassetteInput PRIVATE
     juce::juce_dsp
 )
 
-# (Optional) nudge the linker to keep the factory symbol on Apple
+# On Apple, keep the factory symbol even if the linker wants to drop objects.
 if(APPLE)
   target_link_options(CassetteInput PRIVATE "-Wl,-u,_createPluginFilter")
 endif()
