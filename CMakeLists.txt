@@ -7,27 +7,27 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(JUCE)
 
 juce_add_plugin(CassetteInput
-    COMPANY_NAME            LuminaLabs
-    BUNDLE_ID               com.luminalabs.cassetteinput
-    IS_SYNTH                FALSE
-    NEEDS_MIDI_INPUT        FALSE
-    NEEDS_MIDI_OUTPUT       FALSE
-    IS_MIDI_EFFECT          FALSE
-    EDITOR_WANTS_KEYBOARD_FOCUS TRUE
-    COPY_PLUGIN_AFTER_BUILD TRUE
-    PLUGIN_MANUFACTURER_CODE LmLb
-    PLUGIN_CODE             Csin
-    FORMATS                 AU VST3
-    PRODUCT_NAME            "Cassette Input"
+    COMPANY_NAME                 LuminaLabs
+    BUNDLE_ID                    com.luminalabs.cassetteinput
+    IS_SYNTH                     FALSE
+    NEEDS_MIDI_INPUT             FALSE
+    NEEDS_MIDI_OUTPUT            FALSE
+    IS_MIDI_EFFECT               FALSE
+    EDITOR_WANTS_KEYBOARD_FOCUS  TRUE
+    COPY_PLUGIN_AFTER_BUILD      TRUE
+    PLUGIN_MANUFACTURER_CODE     LmLb
+    PLUGIN_CODE                  Csin
+    FORMATS                      AU VST3
+    PRODUCT_NAME                 "Cassette Input"
 )
 
+# Source files (include the factory!)
 target_sources(CassetteInput PRIVATE
     Source/PluginProcessor.cpp
     Source/PluginEditor.cpp
     Source/Parameters.cpp
-    Source/CreatePluginFilter.cpp   # <-- factory is compiled
-
-    # headers optional
+    Source/CreatePluginFilter.cpp   # <-- factory is here
+    # headers (optional)
     Source/PluginProcessor.h
     Source/PluginEditor.h
     Source/Parameters.h
@@ -47,7 +47,9 @@ target_link_libraries(CassetteInput PRIVATE
     juce::juce_dsp
 )
 
-# Keep the symbol if the linker gets too aggressive (harmless if unneeded)
+# Ensure the AU/VST3 bundles keep the factory symbol
 if(APPLE)
-  target_link_options(CassetteInput PRIVATE "-Wl,-u,_createPluginFilter")
+  target_link_options(CassetteInput_AU   PRIVATE "-Wl,-u,_createPluginFilter")
+  target_link_options(CassetteInput_VST3 PRIVATE "-Wl,-u,_createPluginFilter")
 endif()
+
