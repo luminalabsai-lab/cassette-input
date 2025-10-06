@@ -4,7 +4,6 @@ project(CassetteInput VERSION 1.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# JUCE submodule is in ./JUCE
 add_subdirectory(JUCE)
 
 juce_add_plugin(CassetteInput
@@ -24,7 +23,8 @@ juce_add_plugin(CassetteInput
         Source/PluginProcessor.cpp
         Source/PluginEditor.cpp
         Source/Parameters.cpp
-        # headers optional (for IDE indexing)
+        Source/CreatePluginFilter.cpp   # <- the factory is compiled for AU & VST3
+        # headers (optional, for IDE)
         Source/PluginProcessor.h
         Source/PluginEditor.h
         Source/Parameters.h
@@ -44,11 +44,3 @@ target_link_libraries(CassetteInput PRIVATE
     juce::juce_dsp
 )
 
-# Compile the factory into each wrapper target so the linker finds createPluginFilter()
-if (TARGET CassetteInput_AU)
-    target_sources(CassetteInput_AU   PRIVATE Source/CreatePluginFilter.cpp)
-endif()
-
-if (TARGET CassetteInput_VST3)
-    target_sources(CassetteInput_VST3 PRIVATE Source/CreatePluginFilter.cpp)
-endif()
