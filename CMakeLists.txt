@@ -1,5 +1,3 @@
-# from the cassette-input folder
-cat > CMakeLists.txt <<'CMK'
 cmake_minimum_required(VERSION 3.22)
 project(CassetteInput VERSION 1.0.0 LANGUAGES C CXX)
 
@@ -21,28 +19,25 @@ juce_add_plugin(CassetteInput
     PLUGIN_CODE Csin
     FORMATS AU VST3
     PRODUCT_NAME "Cassette Input"
-)
 
-target_sources(CassetteInput PRIVATE
-    Source/PluginProcessor.cpp
-    Source/PluginProcessor.h
-    Source/PluginEditor.cpp
-    Source/PluginEditor.h
-    Source/Parameters.cpp
-    Source/Parameters.h
-    Source/CreatePluginFilter.cpp
+    # All plugin sources go here so they link into AU/VST3 wrappers
+    SOURCES
+        Source/PluginProcessor.cpp
+        Source/PluginEditor.cpp
+        Source/Parameters.cpp
+        Source/CreatePluginFilter.cpp
+        # headers are optional but ok to list
+        Source/PluginProcessor.h
+        Source/PluginEditor.h
+        Source/Parameters.h
 )
 
 target_include_directories(CassetteInput PRIVATE Source)
 juce_generate_juce_header(CassetteInput)
 
 target_compile_definitions(CassetteInput PRIVATE
-  JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0
+    JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0
 )
 
 target_link_libraries(CassetteInput PRIVATE
-  juce::juce_audio_utils
-  juce::juce_dsp
-)
-CMK
-
+    juc
