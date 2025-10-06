@@ -2,16 +2,13 @@
 #include "PluginEditor.h"
 
 CassetteInputAudioProcessor::CassetteInputAudioProcessor()
-: AudioProcessor (BusesProperties()
-    .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-    .withOutput ("Output", juce::AudioChannelSet::stereo(), true))
-{}
-
-void CassetteInputAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+    : AudioProcessor (BusesProperties()
+        .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
+        .withOutput ("Output", juce::AudioChannelSet::stereo(), true))
 {
-    juce::ignoreUnused (sampleRate, samplesPerBlock);
 }
 
+void CassetteInputAudioProcessor::prepareToPlay (double /*sampleRate*/, int /*samplesPerBlock*/) {}
 void CassetteInputAudioProcessor::releaseResources() {}
 
 bool CassetteInputAudioProcessor::isBusesLayoutSupported (const BusesLayout& l) const
@@ -20,12 +17,12 @@ bool CassetteInputAudioProcessor::isBusesLayoutSupported (const BusesLayout& l) 
         && l.getMainOutputChannelSet() == juce::AudioChannelSet::stereo();
 }
 
-void CassetteInputAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midi)
+void CassetteInputAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
+                                                juce::MidiBuffer& /*midi*/)
 {
-    juce::ignoreUnused (midi);
     juce::ScopedNoDenormals noDenormals;
 
-    // Pass-through stub for now
+    // Pass-through stub
     for (int ch = 0; ch < buffer.getNumChannels(); ++ch)
         buffer.applyGain (ch, 0, buffer.getNumSamples(), 1.0f);
 }
@@ -40,9 +37,9 @@ void CassetteInputAudioProcessor::getStateInformation (juce::MemoryBlock& dest)
     dest.setSize (0); // no state yet
 }
 
-void CassetteInputAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void CassetteInputAudioProcessor::setStateInformation (const void* /*data*/, int /*sizeInBytes*/)
 {
-    juce::ignoreUnused (data, sizeInBytes); // no state yet
+    // no state yet
 }
 
 
