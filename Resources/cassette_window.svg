@@ -1,0 +1,6 @@
+<!-- Placeholder SVG for cassette window animation -->
+<svg width="400" height="100" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="380" height="80" rx="20" fill="#222"/>
+  <circle cx="80" cy="50" r="18" fill="#888"/>
+  <circle cx="320" cy="50" r="18" fill="#888"/>
+</svg>
