@@ -4,13 +4,7 @@ project(CassetteInput VERSION 1.0.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# JUCE submodule
 add_subdirectory(JUCE)
-
-# Grab all plugin source files automatically
-file(GLOB PLUGIN_SOURCES CONFIGURE_DEPENDS
-     "Source/*.cpp"
-     "Source/*.mm")
 
 juce_add_plugin(CassetteInput
     COMPANY_NAME LuminaLabs
@@ -26,7 +20,13 @@ juce_add_plugin(CassetteInput
     PRODUCT_NAME "Cassette Input"
 
     SOURCES
-        ${PLUGIN_SOURCES}     # includes CreatePluginFilter.cpp and friends
+        Source/PluginProcessor.cpp
+        Source/PluginEditor.cpp
+        Source/Parameters.cpp
+        # headers optional below
+        Source/PluginProcessor.h
+        Source/PluginEditor.h
+        Source/Parameters.h
 )
 
 target_include_directories(CassetteInput PRIVATE Source)
