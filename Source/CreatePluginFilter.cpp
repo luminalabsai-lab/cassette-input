@@ -1,8 +1,8 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 
-// Match JUCE's expectation (C++ linkage)
-juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
+// This must be C linkage + exported so AU/VST3 wrappers can find it.
+extern "C" JUCE_API juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new CassetteInputAudioProcessor();
 }
