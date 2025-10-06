@@ -23,7 +23,8 @@ juce_add_plugin(CassetteInput
         Source/PluginProcessor.cpp
         Source/PluginEditor.cpp
         Source/Parameters.cpp
-        # headers optional
+        Source/CreatePluginFilter.cpp   # <— factory lives here
+        # headers (optional)
         Source/PluginProcessor.h
         Source/PluginEditor.h
         Source/Parameters.h
@@ -41,9 +42,8 @@ target_link_libraries(CassetteInput PRIVATE
     juce::juce_dsp
 )
 
-# ---- Force wrappers to pull in createPluginFilter() from shared-code lib ----
+# Force the AU/VST3 wrapper linkers to pull in the factory symbol
 if(APPLE)
-  # Mach-O uses a leading underscore for symbols
   target_link_options(CassetteInput_AU   PRIVATE "-Wl,-u,_createPluginFilter")
   target_link_options(CassetteInput_VST3 PRIVATE "-Wl,-u,_createPluginFilter")
 endif()
